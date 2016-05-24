@@ -24,6 +24,7 @@ from . import filters
 from .helpers import get_headers, status_code, get_dict, get_request_range, check_basic_auth, check_digest_auth, secure_cookie, H, ROBOT_TXT, ANGRY_ASCII
 from .utils import weighted_choice
 from .structures import CaseInsensitiveDict
+from random import randint
 
 ENV_COOKIES = (
     '_gauges_unique',
@@ -707,6 +708,14 @@ def post_delay_response(delay):
     return jsonify(get_dict(
         'url', 'args', 'form', 'data', 'origin', 'headers', 'files', 'json'))
 
+@app.route('/post/delay/max/<int:delay>', methods=('POST',))
+def post_delay_max_response(delay):
+    """Returns a random delayed POST response"""
+
+    time.sleep(randint(1,delay))
+
+    return jsonify(get_dict(
+        'url', 'args', 'form', 'data', 'origin', 'headers', 'files', 'json'))
 
 
 if __name__ == '__main__':
